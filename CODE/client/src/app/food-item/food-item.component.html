@@ -1,0 +1,45 @@
+<!-- <p>Hello!</p> -->
+<!-- <p>food-item works! {{ id }} </p> -->
+<div  *ngIf="isLoading"  class="text-center mx-auto mt-[20%] text-orange-500 font-semibold text-2xl" >
+    <p>Fetching...</p>
+</div>
+<div *ngIf="fetchError"  class="text-center mx-auto mt-[2rem] text-orange-500 font-semibold text-2xl">
+  <p>No such product is available!</p>
+  <img src="../../assets/404.jpg" alt="" srcset="" class="mx-auto h-[150px]">
+</div>
+<div *ngIf="!isLoading && !fetchError">
+  <p class="font-bold text-center mt-10 uppercase text-3xl text-slate-500"> {{ food?.distributor }} </p> 
+<div *ngIf="!isLoading" class="flex mt-10 ml-20  mr-20">
+    <img [src]="food?.image" alt="food-image" class="mr-5 border-2 shadow-lg border-slate-500 bg-slate-300" height="600px" width="500px">
+
+    <div class="mt-10 ml-10">
+      <p class=" text-slate-600 font-bold">Foods Available:&nbsp;</p>
+      <p class=" text-slate-500"> {{ food?.foods }} </p>
+      <br>
+      <p class=" text-slate-600 font-bold">Location:&nbsp;</p>
+      <p class=" text-slate-500"> {{ food?.location }} </p>
+      <br>
+      <p *ngIf="food?.description" class=" text-slate-600 font-bold">Description:&nbsp;</p>
+      <p class=" text-slate-500"> {{ food?.description }} </p>
+
+    </div>
+
+  </div>
+
+  <div class="mt-10 mb-10 text-right mr-12 pr-8">
+    <button (click)="takeFoodOrderAsVolunteer()"
+      *ngIf="(currentUser?.role === 'D' || currentUser?.role === 'V') && !food?.isBooked"
+      class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4">
+      TAKE ORDER
+    </button>
+    &nbsp;
+    <button (click)="requestFood()" *ngIf="currentUser?.role === 'G' && !food?.isBooked"
+      class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4">
+      REQUEST FOOD
+    </button>
+    <form (ngSubmit)="confirmDeleivery(token)" *ngIf="food?.isBooked">
+      <input class="bg-slate-200 py-2 px-4" placeholder="Enter code" required="true" name="token" #token="ngModel" ngModel />&nbsp;
+      <input  class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md" type="submit" value="SUBMIT">
+    </form>
+  </div>
+</div>

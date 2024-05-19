@@ -1,0 +1,29 @@
+
+<div>
+    <!-- <img class=" mt-10 ml-10 shrink-0 h-12 w-12 rounded-full" src="../../assets/user.png" alt="profile-icon" /> -->
+    <h2 class="text-slate-600 font-bold mt-10 ml-10 uppercase text-3xl">User Profile</h2>
+</div>
+
+<div class="mx-10 my-10 ">
+        <p class=" text-slate-600 font-bold bg-slate-400 uppercase p-2 ">Name:</p> 
+        <p class=" text-slate-600 bg-slate-300 p-2">{{profile?.username}}</p>
+        
+        <br>
+        <p class=" text-slate-600 font-bold bg-slate-400 uppercase p-2">Email: </p>
+        <p class=" text-slate-600 bg-slate-300 p-2">{{profile?.email}}</p>
+
+        <br>
+        <p class=" text-slate-600 font-bold bg-slate-400 uppercase p-2">Mobile: </p>
+        <p class=" text-slate-600 bg-slate-300 p-2">{{profile?.mobileNumber}}</p>
+
+        <br>
+        <p class=" text-slate-600 font-bold bg-slate-400 uppercase p-2">Pincode: </p>
+        <p class=" text-slate-600 bg-slate-300 p-2">{{profile?.pincode}}</p>
+
+        <br>
+        <p class=" text-slate-600 font-bold bg-slate-400 uppercase p-2">Role: </p>
+        <p class="text-slate-600 bg-slate-300 p-2">
+            {{ profile?.role === 'V' ? 'Volunteer' : (profile?.role === 'D' ? 'Distributor' : 'General User') }}
+        </p>
+    
+</div>

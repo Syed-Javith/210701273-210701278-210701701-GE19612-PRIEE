@@ -1,0 +1,32 @@
+<!-- <p>requests works!</p> -->
+<div class="my-10 mx-10">
+    <h2 class="text-slate-600 font-bold my-10 uppercase text-3xl">REQUESTS</h2>
+    <div *ngFor="let request of requests" class="border mb-10">
+        <div class="bg-slate-200 p-4">
+
+            <p class="font-bold text-slate-600 inline-block">Request raised by:&nbsp;</p> <p class="inline-block">{{ request.user.username }}</p>
+            <br>
+            <p class="font-bold text-slate-600 inline-block">Requester Contact Email:&nbsp;</p> <p class="inline-block">{{ request.user.email }}</p>
+            <br>
+            <p class="font-bold text-slate-600 inline-block">Requester Mobile number:&nbsp;</p> <p class="inline-block">{{ request.user.mobileNumber }}</p>
+            <br>
+            
+            <p class="font-bold text-slate-600 inline-block">Requested Location:&nbsp;</p> <p class="inline-block">{{ request.user.pincode }}</p>
+            <br>
+            <p class="font-bold text-slate-600 inline-block">Requested Foods:&nbsp;</p>
+            <p>{{ request.foods }}</p>
+            
+            <br>
+            
+            <div class="">
+                <a [routerLink]="['/foods', request.foodId]" [queryParams]="{ requestId:request._id}" class="text-blue-500 self-end underline">
+                    Food details</a>
+                &nbsp;
+                <button [disabled]="request.isTaken===true" (click)="takeRequest(request.foodId , request._id , request.user.email)" class="bg-orange-500 hover:bg-orange-700 disabled:bg-red-300 text-white font-bold py-2 px-4 uppercase">
+                    {{ request.isTaken ? "Order taken" : "Take order" }}
+                </button>
+            </div>            
+        </div>
+    </div>
+</div>
+

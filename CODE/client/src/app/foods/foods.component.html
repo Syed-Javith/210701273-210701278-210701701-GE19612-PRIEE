@@ -1,0 +1,82 @@
+<div *ngIf="currentUser" class="group flex items-center self-end pb-4 pt-4 pr-5 bg-slate-500" dir="rtl">
+  
+  <a routerLink="/profile" class="">
+  <img class="shrink-0 h-12 w-12 rounded-full" src="../../assets/user.png" alt="profile-icon" />
+  </a>
+  <div class="rtl:ml-3 ltr:mr-3">
+    <p class="font-medium text-xl text-black">&nbsp;&nbsp;{{ currentUser.username }}</p>
+    <p class="text-sm font-medium text-gray-700 ">&nbsp;&nbsp;{{ currentUser.role === 'V' ? 'Volunteer' : (currentUser.role === 'D' ? 'Distributor' : 'General User') }}</p>
+  </div>
+  <div>
+    <button (click)="logout()">logout</button>
+  </div>
+</div>
+
+<div class="mt-10 mb-10 text-right mr-6 pr-8">
+  <button *ngIf="currentUser?.role === 'D'" (click)="toggleAddForm()" 
+    class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4">
+    ADD FOOD
+  </button>
+  &nbsp;
+  <a *ngIf="currentUser?.role !== 'G'" routerLink="/requests" class="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4">
+    VIEW REQUESTS
+  </a>
+</div>
+<div *ngIf="isPending" class="text-center mx-auto mt-[20%] text-orange-500 font-semibold">
+  <p class="md:text-2xl text-sm">Loading...</p>
+</div>
+
+<div *ngIf="!isPending" class="flex flex-wrap px-4 mx-6">
+    <div *ngFor="let food of foods;" class="w-full md:w-1/4 px-4 py-4">
+        <div style="min-width: 200px;" class="bg-white h-72 shadow-lg p-2 flex flex-col justify-between items-center border border-slate-600">
+            <div>
+              <img [src]="food?.image" alt="food-image" class="mx-auto object-contain max-h-[200px] max-w-[200px]" [height]="250" [width]="250">
+              <p class="font-bold text-slate-600">{{ food.distributor }}</p>
+              <!-- <p>{{ food.description }}</p> -->
+              <p class="text-slate-600">{{ (food.foods.toString().length > 25 ? (food.foods.toString() | slice:0:25) + '...' : food.foods) }}</p>
+              <p class="text-slate-600">{{ food.location }}</p>
+            </div>
+            <a [routerLink]="['/foods', food._id]" class="text-blue-500 self-end underline">View Details</a>
+        </div>
+    </div>
+</div>
+  
+  
+  <div *ngIf="addFormVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">
+    <div class="bg-white p-8 shadow-lg w-1/2">
+      <form (ngSubmit)="addFood(form)" #form="ngForm">
+        
+        <!-- <div class="mb-4">
+            <label for="distributor" class="font-bold">Distributor&nbsp;</label>
+            <input type="text" name="" id="distributor" class="shadow appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">
+        </div> -->
+
+        <div class="mb-4">
+          <label for="description" class="font-bold">Description&nbsp;</label>
+          <input type="text" name="description" id="description" class="shadow appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Any food specific description" #description="ngModel" ngModel >
+        </div>
+  
+        <div class="mb-4">
+          <label for="foods" class="font-bold">Foods&nbsp;</label>
+          <!-- <p>list of foods and foods seperated by comma(,)</p> -->
+          <input type="text" name="foods" id="foods" class="shadow appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="List of foods and quantity seperated by comma( , )"  #foods="ngModel" ngModel>
+        </div>
+  
+        <div class="mb-4">
+          <label for="pincode" class="font-bold">Location&nbsp;</label>
+          <input type="text" name="pincode" id="pincode" class="shadow appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your location as pincode"  #pincode="ngModel" ngModel>
+        </div>
+
+        <div class="mb-4">
+          <label for="image" class="font-bold">Image&nbsp;</label>
+          <input type="text" name="image" id="image" class="shadow appearance-none w-full border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Link for the image to display"  #image="ngModel" ngModel>
+        </div>
+        <div class="flex items-center justify-center">
+            <input type="submit" value="ADD" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">&nbsp;
+            <button (click)="toggleAddForm()" value="CANCEL" class="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline">CANCEL</button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  
